@@ -1,9 +1,13 @@
 package com.mdf.springjpa.Spring.jpa.service.Impl;
 
+
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mdf.springjpa.Spring.jpa.model.Guardian;
 import com.mdf.springjpa.Spring.jpa.model.Student;
@@ -11,11 +15,14 @@ import com.mdf.springjpa.Spring.jpa.repository.StudentRepository;
 import com.mdf.springjpa.Spring.jpa.service.IStudentService;
 
 @Service
+@Transactional
 public class StudentServiceImpl implements IStudentService {
 	
 	@Autowired
 	StudentRepository _studentRepository;
 	
+	@Autowired
+	PasswordEncoder _passwordEncoder;
 	
 	@Override
 	public Student addStudent(Student student) {
@@ -31,7 +38,7 @@ public class StudentServiceImpl implements IStudentService {
 							.firstName(student.getFirstName())
 							.lastName(student.getLastName())
 							.emailId(student.getEmailId())
-							.password(student.getPassword())
+							.password(_passwordEncoder.encode(student.getPassword()))
 							.guardian(guardian)
 							.build();
 		this._studentRepository.save(bldStudent);
@@ -81,9 +88,18 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
-	public List<Student> retrieveAllStudent() {
+	public List<Student> retrieveAllStudent() throws IOException {
 		// TODO Auto-generated method stub
-		return null;
+		try {
+		List<Student> Students =this._studentRepository.GET_ALL_STUDENTS();
+		System.out.println(Students);
+		return Students;
+		} catch (Exception e) {
+			System.out.println(e.getMessage().toString().substring(1, 50));
+		
+			return null;
+			// TODO: handle exception
+		}
 	}
 
 }

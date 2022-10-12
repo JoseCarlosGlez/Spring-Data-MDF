@@ -2,6 +2,7 @@ package com.mdf.springjpa.Spring.jpa.service;
 
 
 
+import java.io.IOException;
 import java.util.List;
 
 import com.mdf.springjpa.Spring.jpa.model.Student;
@@ -12,7 +13,7 @@ public interface IStudentService {
 	 
 	 Student findStudentByEmail(String email);
 
-	 List<Student> retrieveAllStudent();
+	 List<Student> retrieveAllStudent() throws IOException;
 	 
 	 Boolean updateStudent(Student student);
 	 
