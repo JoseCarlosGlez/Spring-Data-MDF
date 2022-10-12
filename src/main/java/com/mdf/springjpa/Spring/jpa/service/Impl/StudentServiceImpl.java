@@ -15,7 +15,8 @@ public class StudentServiceImpl implements IStudentService {
 	
 	@Autowired
 	StudentRepository _studentRepository;
-
+	
+	
 	@Override
 	public Student addStudent(Student student) {
 		// TODO Auto-generated method stub
@@ -30,6 +31,7 @@ public class StudentServiceImpl implements IStudentService {
 							.firstName(student.getFirstName())
 							.lastName(student.getLastName())
 							.emailId(student.getEmailId())
+							.password(student.getPassword())
 							.guardian(guardian)
 							.build();
 		this._studentRepository.save(bldStudent);
