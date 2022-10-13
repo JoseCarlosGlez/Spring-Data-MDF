@@ -25,7 +25,6 @@ public class CourseController {
 
 		if (success)
 			return new ResponseEntity<>(success, HttpStatus.OK);
-		
 		return new ResponseEntity<>(success, HttpStatus.BAD_REQUEST);
 
 	}

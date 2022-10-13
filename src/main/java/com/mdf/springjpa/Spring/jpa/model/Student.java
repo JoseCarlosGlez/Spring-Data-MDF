@@ -50,6 +50,8 @@ public class Student {
 	private String emailId;
 	
 	private String password;
+	
+	private String role;
 
 	@Embedded
 	private Guardian guardian;
