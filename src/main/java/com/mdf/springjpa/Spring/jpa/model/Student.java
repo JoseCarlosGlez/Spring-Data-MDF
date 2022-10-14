@@ -48,9 +48,9 @@ public class Student {
 	@NotBlank(message = "field Email is mandatory")
 	//@Pattern(regexp =  "^[A-Za-z0-9+_.-]+@(.+)$", message = "Email format is not correct")
 	private String emailId;
-	
+	@NotBlank(message = "field 'password' is mandatory")
 	private String password;
-	
+	@NotBlank(message = "field 'role' is mandatory")
 	private String role;
 
 	@Embedded

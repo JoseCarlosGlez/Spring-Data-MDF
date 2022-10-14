@@ -31,6 +31,7 @@ public class StudentController {
 	public ResponseEntity<Student> createNewStudent(@Valid @RequestBody Student student){
 		
 		Student studentAdded = this._studentService.addStudent(student);
+	
 		
 		return new ResponseEntity<>(studentAdded,HttpStatus.CREATED);
 		
