@@ -4,6 +4,7 @@ spring:
       username: root
    driver-class-name: com.mysql.jdbc.Driver
    jpa:
+      open-in-view: false
       show-sql: true
       hibernate:
          ddl-auto: update
@@ -11,3 +12,6 @@ spring:
     #  user:
      #    name: MDF
       #   password: 12345
+URLS:
+   Authenticated: /api/student/byEmail,/api/student/update,/api/student/all,/api/course/**
+   Permitall: /api/student/register

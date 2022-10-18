@@ -46,7 +46,7 @@ public class StudentController {
 		return new ResponseEntity<>(getStudentByEmail,HttpStatus.OK) ;
 	}
 	
-	@PutMapping
+	@PutMapping("/update")
 	public ResponseEntity<Boolean>updateStudent(
 			@Valid @RequestBody Student student
 			){
@@ -58,8 +58,10 @@ public class StudentController {
 	
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<Student>>RetieveAllStudents() throws IOException{
-		return new ResponseEntity<List<Student>>(this._studentService.retrieveAllStudent(),HttpStatus.OK);
+	public ResponseEntity<?>RetieveAllStudents() throws IOException{
+		List<Student> _students =this._studentService.retrieveAllStudent();
+		System.out.println(_students);
+		return new ResponseEntity<>(_students,HttpStatus.OK);
 	}
 	
 	

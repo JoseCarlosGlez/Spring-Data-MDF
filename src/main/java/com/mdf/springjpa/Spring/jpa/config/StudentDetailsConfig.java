@@ -2,6 +2,7 @@ package com.mdf.springjpa.Spring.jpa.config;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,7 +18,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.mdf.springjpa.Spring.jpa.model.Authority;
 import com.mdf.springjpa.Spring.jpa.model.Student;
 import com.mdf.springjpa.Spring.jpa.repository.StudentRepository;
 
@@ -54,23 +57,36 @@ public class StudentDetailsConfig implements AuthenticationProvider {
 	}
 */
 	@Override
+	@Transactional
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		// TODO Auto-generated method stub
 		String userName = authentication.getName();
 		String password = authentication.getCredentials().toString();
-		Student students = this._studentRepository.findByEmailId(userName);
-		if (students != null) {
+		List<Student> _student = this._studentRepository.GET_ALL_STUDENTS_AUTHORITIES(userName);
+		System.out.println(_student.get(0).getAuthorities());
+		if (_student.size()>0) {
 
-			if (_passwordEncoder.matches(password, students.getPassword())) {
+			if (_passwordEncoder.matches(password, _student.get(0).getPassword())) {
 				List<GrantedAuthority> authorities = new ArrayList<>();
-				authorities.add(new SimpleGrantedAuthority(students.getRole()));
-				return new UsernamePasswordAuthenticationToken(userName, password, authorities);
+				authorities.add(new SimpleGrantedAuthority(_student.get(0).getRole()));
+				return new UsernamePasswordAuthenticationToken(userName, password, getGrantedAuthorities(_student.get(0).getAuthorities()));
 			}
 
 			throw new BadCredentialsException("No user registered with those credentials");
 
 		}
 		throw new BadCredentialsException("No user registered with those credentials");
+	}
+	
+	
+	private List<GrantedAuthority> getGrantedAuthorities (Set<Authority> authorities){
+		List<GrantedAuthority> grantedAuthorities= new ArrayList<>();
+		
+		for(Authority authority: authorities) {
+			grantedAuthorities.add(new SimpleGrantedAuthority(authority.getName()));
+		}
+		
+		return grantedAuthorities;
 	}
 
 	@Override

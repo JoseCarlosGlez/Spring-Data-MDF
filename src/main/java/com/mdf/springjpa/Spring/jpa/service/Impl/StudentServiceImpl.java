@@ -15,7 +15,6 @@ import com.mdf.springjpa.Spring.jpa.repository.StudentRepository;
 import com.mdf.springjpa.Spring.jpa.service.IStudentService;
 
 @Service
-@Transactional
 public class StudentServiceImpl implements IStudentService {
 	
 	@Autowired
@@ -89,15 +88,14 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
+	@Transactional
 	public List<Student> retrieveAllStudent() throws IOException {
 		// TODO Auto-generated method stub
 		try {
-		List<Student> Students =this._studentRepository.GET_ALL_STUDENTS();
-		System.out.println(Students);
-		return Students;
+		List<Student> students =this._studentRepository.GET_ALL_STUDENTS();
+		return students;
 		} catch (Exception e) {
-			System.out.println(e.getMessage().toString().substring(1, 50));
-		
+			System.out.println(e.getMessage().toString());
 			return null;
 			// TODO: handle exception
 		}
